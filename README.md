@@ -24,5 +24,6 @@ We are currently developing the "Pro version" of the manager for customers. We w
 - [ ] Bug: Add filesize validation
 - [ ] Feature: Add policies to set rules for individual collections
 - [ ] Feature: Add active folder to url.
+- [ ] Feature: Add support for single file collections.
 
 The beta version is scheduled for release at the start of May.
