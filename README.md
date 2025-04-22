@@ -22,6 +22,7 @@ We are currently developing the "Pro version" of the manager for customers. We w
 - [ ] Make front-end independent of any frameworks / UI component sets 
 - [ ] Bug: Tweak file validation to accept only allowed files
 - [ ] Bug: Add filesize validation
+- [ ] Bug: Disable "Download All" button if no files are available
 - [ ] Feature: Add policies to set rules for individual collections
 - [ ] Feature: Add active folder to url.
 - [ ] Feature: Add support for single file collections.
