@@ -19,9 +19,9 @@ A file manager for Laravel applications using the famous [Spatie Laravel Mediali
 We are currently developing the "Pro version" of the manager for customers. We want to publish a free version of the manager here on Github. There are a few things that need to be fixed before we can publish the package.
 
 - [x] Refactor Livewire file structure, eliminate usage of multiple nested Livewire components
-- [ ] Make front-end independent of any frameworks / UI component sets 
+- [x] Make front-end independent of any frameworks / UI component sets 
+- [x] Bug: Disable "Download All" button if no files are available
 - [ ] Bug: Tweak file validation to accept only allowed files
-- [ ] Bug: Disable "Download All" button if no files are available
 - [ ] Bug: Refresh mediaItem if thumb generation is queued
 - [ ] Feature: Filesize validation
 - [ ] Feature: Policies to set rules for individual collections
