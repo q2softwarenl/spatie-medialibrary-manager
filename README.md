@@ -23,7 +23,8 @@ We are currently developing the "Pro version" of the manager for customers. We w
 - [x] Bug: Disable "Download All" button if no files are available
 - [x] Bug: Tweak file validation to accept only allowed mimetypes
 - [x] Bug: Refresh mediaItem if thumb generation is queued
-- [ ] Bug: decide if thumbs are requirement  
+- [ ] Bug: Decide if thumbs are a requirement  
+- [ ] Refactor: Use json translation as much as possible and avoid legacy php arrays  
 - [ ] Feature: Filesize validation
 - [ ] Feature: Policies to set rules for individual collections
 - [ ] Feature: Add active folder to url.
@@ -48,19 +49,21 @@ Media Library Manager can be installed via Composer. To do so, follow the basic 
 composer require q2softwarenl/spatie-medialibrary-manager
 ```
 
-1. Add this line to your app `resources/js/app.js` file:
+1. Add the manager javascript to your app `resources/js/app.js` file:
     ```diff
     import './bootstrap';
     + import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/js/manager';
     ```
 
-2. Add to `app.css`:
+2. Import the manager styles to your app `app.css` file:
     ```css
     @import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/manager.css'; 
     @import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/theme/default.css';
     ```
 
-3. Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implenents the Spatie Medialibrary Manager:
+3. Run `npm run build`.
+
+4. Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implenents the Spatie Medialibrary Manager:
 
     - `spatieMedialibraryManagerUploadMediaToCollection`
     - `spatieMedialibraryManagerDownloadAllMediaFromCollection`
@@ -121,6 +124,12 @@ Spatie Medialibrary Manager uses default translation strings. You can edit this 
 	"This folder only accepts one file.": "Deze map accepteert maar één bestand.",
 	"Where would you like to move \":file_name\"?": "Waarheen wilt u \":file_name\" verplaatsen?"
 }
+```
+
+Publish the language file to set other translations:
+
+```bash
+vendor:publish --provider="Q2softwarenl\SpatieMedialibraryManager\SpatieMedialibraryManagerServiceProvider" --tag="lang"
 ```
 
 ## Overrule policies
