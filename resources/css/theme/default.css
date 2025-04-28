@@ -1,0 +1,128 @@
+/*
+SMM Styles
+*/
+@utility smm-btn {
+    @apply flex items-center gap-1 px-2 py-1.5 rounded transition-colors cursor-pointer text-sm;
+    @apply border border-gray-300 bg-gray-200 hover:bg-gray-300;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+}
+@utility smm-btn-primary {
+    @apply flex items-center gap-1 px-2 py-1.5 rounded transition-colors cursor-pointer text-sm;
+    @apply border bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+}
+@utility smm-btn-ghost {
+    @apply border border-transparent flex items-center gap-1 px-2 py-1.5 rounded transition-colors cursor-pointer text-sm;
+    @apply hover:bg-gray-300;
+    @apply focus:outline-offset-1 focus:outline-black;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+}
+@utility smm-btn-ghost-square {
+    @apply flex items-center justify-center gap-1 size-7 rounded transition-colors cursor-pointer text-sm;
+    @apply hover:bg-gray-300;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+}
+@utility smm-btn-ghost-error-square {
+    @apply flex items-center justify-center gap-1 size-7 rounded transition-colors cursor-pointer text-sm;
+    @apply text-red-600 hover:bg-gray-300;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+}
+
+.border, .border-b, .border-t, .border-y {
+    @apply border-gray-300;
+}
+.text-base-content\/75 {
+    @apply text-gray-500;
+}
+.text-error {
+    @apply text-red-600;
+}
+.bg-base-100 {
+    @apply bg-gray-100;
+}
+.bg-base-300 {
+    @apply bg-gray-300;
+}
+.bg-error {
+    @apply bg-red-600;
+}
+.rounded-field {
+    @apply rounded-lg;
+}
+.ring-base-300 {
+    @apply ring-gray-300;
+}
+.outline-base-300 {
+    @apply outline-gray-300;
+}
+.border-base {
+    @apply border-gray-800;
+}
+.border-error {
+    @apply border-red-600;
+}
+.hover\:text-base-content {
+    @apply hover:text-gray-800;
+}
+.dark\:bg-base-50 {
+    @apply dark:bg-gray-100;
+}
+.dark\:ring-base-50 {
+    @apply dark:ring-gray-100;
+}
+.dark\:outline-base-50 {
+    @apply dark:outline-gray-100;
+}
+.dark\:border-base-content {
+    @apply dark:border-gray-200;
+}
+
+.input {
+    @apply rounded border border-gray-300 py-1 px-2 text-sm;
+}
+
+.radio {
+    @apply relative shrink-0 cursor-pointer appearance-none rounded-full p-1 align-middle border-gray-300;
+    border: 1px solid;
+    box-shadow: 0 1px oklch(0% 0 0 / calc(var(--depth) * 0.1)) inset;
+    width: 1.25em;
+    height: 1.25em;
+    color: var(--input-color, currentColor);
+
+    &:before {
+        @apply block size-full rounded-full;
+        --tw-content: "";
+        content: var(--tw-content);
+        background-size: auto, calc(var(--noise) * 100%);
+        background-image: none, var(--fx-noise);
+    }
+  
+    &:focus-visible {
+      outline: 2px solid currentColor;
+    }
+  
+    &:checked,
+    &[aria-checked="true"] {
+      animation: radio 0.2s ease-out;
+      @apply bg-gray-100 border-current;
+  
+      &:before {
+        @apply bg-current;
+        box-shadow:
+          0 -1px oklch(0% 0 0 / calc(var(--depth) * 0.1)) inset,
+          0 8px 0 -4px oklch(100% 0 0 / calc(var(--depth) * 0.1)) inset,
+          0 1px oklch(0% 0 0 / calc(var(--depth) * 0.1));
+      }
+      @media (forced-colors: active) {
+        &:before {
+          @apply outline -outline-offset-1;
+        }
+      }
+      @media print {
+        &:before {
+          outline: 0.25rem solid;
+          outline-offset: -1rem;
+        }
+      }
+    }
+}

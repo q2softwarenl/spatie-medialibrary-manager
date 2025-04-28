@@ -1,0 +1,16 @@
+@utility smm-btn {
+    @apply btn btn-sm;
+}
+@utility smm-btn-primary {
+    @apply btn btn-sm btn-primary;
+}
+@utility smm-btn-ghost {
+    @apply btn btn-sm btn-ghost;
+}
+@utility smm-btn-ghost-square {
+    @apply btn btn-sm btn-ghost btn-square;
+}
+@utility smm-btn-ghost-error-square {
+    @apply btn btn-sm btn-square btn-ghost;
+    @apply text-error;
+}

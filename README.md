@@ -15,6 +15,11 @@ A file manager for Laravel applications using the famous [Spatie Laravel Mediali
 - Spatie Medialibrary 11+
 - Tailwindcss 4
 
+## PRO-features
+- Alternative GUI for single file collections
+- Manage file versions
+- Extended use of policies (policies for specific model collections in stead of full model)
+
 ## Roadmap
 We are currently developing the "Pro version" of the manager for customers. We want to publish a free version of the manager here on Github. There are a few things that need to be fixed before we can publish the package.
 
@@ -28,7 +33,8 @@ We are currently developing the "Pro version" of the manager for customers. We w
 - [ ] Feature: Filesize validation
 - [ ] Feature: Policies to set rules for individual collections
 - [ ] Feature: Add active folder to url.
-- [ ] Feature: Support for single file collections.
+- [ ] Improve single file collections.
+- [ ] Add support for darkmode.
 
 The beta version is scheduled for release at the start of May.
 
@@ -65,15 +71,15 @@ composer require q2softwarenl/spatie-medialibrary-manager
 
 4. Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implenents the Spatie Medialibrary Manager:
 
-    - `spatieMedialibraryManagerUploadMediaToCollection`
-    - `spatieMedialibraryManagerDownloadAllMediaFromCollection`
-    - `spatieMedialibraryManagerEditMediaInCollection`
-    - `spatieMedialibraryManagerMoveMedia`
-    - `spatieMedialibraryManagerMoveMediaFromCollectionToCollection`
+    - `spatieMedialibraryManagerEditMedia`
     - `spatieMedialibraryManagerDeleteMedia`
+    - `spatieMedialibraryManagerMoveMedia`
+    - `spatieMedialibraryManagerUploadMedia`
+    - `spatieMedialibraryManagerDownloadMedia`
+    - `spatieMedialibraryManagerDownloadAllMedia`
     - [Take a look at the UserPolicy.php sample file](./stubs/UserPolicy.php)
 
-4. Use the component in your Blade file and add a model that implements the `Spatie\MediaLibrary\HasMedia` interface via the `model`-property. The manager will auto-detect registered mediacollections. [How to register a media collection?](#register-a-media-collection)
+4. Add the component and provide a model that implements the `Spatie\MediaLibrary\HasMedia` interface via the `model`-property. The manager will auto-detect registered mediacollections. [How to register a media collection?](#register-a-media-collection)
 
     ```html
     <livewire:spatie-medialibrary-manager
@@ -155,4 +161,4 @@ You can overrule those parameters like this:
 />
 ```
 
-**Note!** You cannot return `true` if the policy returns `false`!
+**Note!** You cannot force `true` if the policy returns `false`. Make sure your policy covers the basics and manage functional policies via the component attributes.

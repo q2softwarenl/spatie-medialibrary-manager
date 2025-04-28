@@ -1,0 +1,32 @@
+{
+    "name": "q2softwarenl/spatie-medialibrary-manager",
+    "description": "A file manager for Laravel applications using Spatie Laravel Medialibrary.",
+    "license": "MIT License",
+    "autoload": {
+      "psr-4": {
+        "Q2softwarenl\\SpatieMedialibraryManager\\": "src/"
+      }
+    },
+    "authors": [
+      {
+        "name": "Dirk Jan Laros",
+        "email": "dirkjan@q2-software.nl"
+      }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "laravel/framework": "^10.0|^11.0|^12.0",
+        "livewire/livewire": "^3.0",
+        "spatie/laravel-medialibrary": "^11.0.0",
+        "spatie/pdf-to-image": "^2.2",
+        "djl997/blade-shortcuts": "^1.0.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Q2softwarenl\\SpatieMedialibraryManager\\SpatieMedialibraryManagerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}  
