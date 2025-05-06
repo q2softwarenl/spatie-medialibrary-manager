@@ -88,9 +88,27 @@ class Manager extends Component
         if ($conversion && !in_array(InteractsWithMedia::class, class_uses_recursive($model)))
             throw new Exception('The ' . get_class($model) . ' class must use Spatie\MediaLibrary\InteractsWithMedia.');
 
-        if(!$whereInMediaCollections)
-            $this->canOverview = true;
+        $this->setAllMediaCollections($model, $whereInMediaCollections);
+        $this->setAllMediaItems($model);
+        $this->setMaxFileSizeBytes();
+        $this->setTotalsFooter();
 
+        $this->model = $model;
+
+        $this->checkPermissions();
+    }
+
+    /**
+     * Get registered media collections from given model
+     * Filter collections if $whereInMediaCollections is provided
+     * Map collections to usable format for manager
+     * 
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param array|null $whereInMediaCollections
+     * @return void
+     */
+    public function setAllMediaCollections(Model $model, ?array $whereInMediaCollections): void
+    {
         $this->allMediaCollections = $model
             ->getRegisteredMediaCollections()
             ->filter(function($collection) use ($whereInMediaCollections) {
@@ -118,25 +136,52 @@ class Manager extends Component
                     ]
                 ];
             })->toArray();
-        
-        $this->allMediaItems = $model->media->map(fn($mediaItem) => ManagerFile::fromModel($mediaItem)->toArray())->toArray();
-        
-        // If manager is displaying just one collection, set activeCollection and change some permissions
+    }
+
+    /**
+     * Get list of all media items in model
+     * 
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return void
+     */
+    public function setAllMediaItems(Model $model): void
+    {
+        $this->allMediaItems = $model
+            ->media
+            ->map(fn($mediaItem) => ManagerFile::fromModel($mediaItem)->toArray())
+            ->toArray();
+    }
+
+    /**
+     * If manager is displaying just one collection, set activeCollection and change some permissions
+     * 
+     * @return void
+     */
+    public function checkPermissions(): void
+    {
+        $this->canOverview = true;
+
         if(count($this->allMediaCollections) === 1) {
             $this->activeCollection = array_key_first($this->allMediaCollections);
             $this->canOverview = false;
             $this->canMove = false;
         }
-
-        $this->maxFileSizeBytes = config('media-library.max_file_size');
-        
-        $this->setTotalsFooter();
-        
-        $this->model = $model;
     }
 
     /**
-     * File upload
+     * Get the max file size upload via config file
+     * 
+     * @return void
+     */
+    public function setMaxFileSizeBytes(): void
+    {
+        $this->maxFileSizeBytes = config('media-library.max_file_size');
+    }
+
+    /**
+     * File upload functionality
+     * 
+     * @return void
      */
     public function updatedRawFiles($value): void
     {
@@ -213,7 +258,12 @@ class Manager extends Component
         $this->reset('uploadingToMediaCollection');
     }
 
-    public function addMediaItemToCollection(int $model_id, array $addedManagerFile)
+    /**
+     * File upload functionality
+     * 
+     * @return void
+     */
+    public function addMediaItemToCollection(int $model_id, array $addedManagerFile): void
     {
         if($this->model->id !== $model_id) return;
 
@@ -226,7 +276,7 @@ class Manager extends Component
         $this->setTotalsFooter();
     }
 
-    public function tryLoadingMissingThumbnails()
+    public function tryLoadingMissingThumbnails(): void
     {
         $this->allMediaItems = collect($this->allMediaItems)->map(function($mediaItem) {
             if(!empty($mediaItem['thumbnail_url']))
@@ -236,7 +286,7 @@ class Manager extends Component
         })->toArray();
     }
 
-    public function removeMediaItemFromCollection(int $model_id, int $media_id, $collection_name, int $removed_size)
+    public function removeMediaItemFromCollection(int $model_id, int $media_id, $collection_name, int $removed_size): void
     {
         if($this->model->id !== $model_id) return;
 
@@ -261,14 +311,14 @@ class Manager extends Component
         $this->totalFileSizeMb = (($size / 1048576) < 1 ? '<1' : number_format($size / 1048576, 0, ',', '.')) . ' MB';
     }
 
-    public function updateMediaItemName($media_id, $value) 
+    public function updateMediaItemName($media_id, $value): void
     {
         if(!$this->canEdit) return;
 
         Media::find($media_id)?->update(['name' => $value]);
     }
 
-    public function deleteMediaItem(string $managerKey, int $media_id) 
+    public function deleteMediaItem(string $managerKey, int $media_id): void
     {
         if(!$this->canDelete) return;
 
@@ -282,7 +332,7 @@ class Manager extends Component
         }
     }
 
-    public function downloadAll(string $collection_name) 
+    public function downloadAll(string $collection_name)
     {
         if(!$this->canDownloadAll) return;
 
@@ -307,7 +357,7 @@ class Manager extends Component
         return response()->download($mediaItem->getPath(), $downloadName);
     }
 
-    public function moveMediaItem(int $media_id, string $to_collection_name)
+    public function moveMediaItem(int $media_id, string $to_collection_name): void
     {
         if(!$this->canMove) return;
         
