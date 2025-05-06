@@ -16,12 +16,12 @@ A file manager for Laravel applications using the famous [Spatie Laravel Mediali
 - Tailwindcss 4
 
 ## PRO-features
-- Alternative GUI for single file collections
-- Manage file versions
-- Extended use of policies (policies for specific model collections in stead of full model)
+- Alternative GUI for single file collections.
+- Upload multiple versions of the same file.
+- Set tailored policies on the collection, rather than being limited to just the model.
 
 ## Roadmap
-We are currently developing the "Pro version" of the manager for customers. We want to publish a free version of the manager here on Github. There are a few things that need to be fixed before we can publish the package.
+We are currently in active development of "Spatie Medialibrary Manager Pro". we plan to publish a free version here on Github. There are a few things that need to be fixed before we can publish the package.
 
 - [x] Refactor Livewire file structure, eliminate usage of multiple nested Livewire components
 - [x] Make front-end independent of any frameworks / UI component sets 
@@ -36,7 +36,8 @@ We are currently developing the "Pro version" of the manager for customers. We w
 - [ ] Improve single file collections.
 - [ ] Add support for darkmode.
 
-The beta version is scheduled for release at the start of May.
+The alpha version is released at the end of April. 
+The beta version is scheduled for release at the end of May.
 
 ## Requirements
 - Laravel 10+
