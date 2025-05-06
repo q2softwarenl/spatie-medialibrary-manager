@@ -23,6 +23,9 @@ use Livewire\Attributes\Url;
 class Manager extends Component
 {
     use WithFileUploads;
+
+    protected string $view = 'spatie-medialibrary-manager::livewire.manager';
+    protected $dispatchToManager = Manager::class;
     
     public $innerClass = '';
     
@@ -196,7 +199,7 @@ class Manager extends Component
                     ->usingFileName($file_name)
                     ->toMediaCollection($this->uploadingToMediaCollection);
 
-                $this->dispatch('addMediaItemToCollection', $this->model->id, ManagerFile::fromModel($addedMedia))->to(Manager::class);
+                $this->dispatch('addMediaItemToCollection', $this->model->id, ManagerFile::fromModel($addedMedia))->to($this->dispatchToManager);
 
             } catch (\Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded $e) {
                 $this->addError('files.*', __('smm::texts.file_not_accepted_in_collection', [
@@ -273,7 +276,7 @@ class Manager extends Component
             $media = Media::find($media_id)->toArray();
 
             if($media)
-                $this->dispatch('removeMediaItemFromCollection', $this->model->id, $media['id'], $media['collection_name'], $media['size'])->to(Manager::class);
+                $this->dispatch('removeMediaItemFromCollection', $this->model->id, $media['id'], $media['collection_name'], $media['size'])->to($this->dispatchToManager);
             
             Media::find($media_id)?->delete();
         }
@@ -329,6 +332,6 @@ class Manager extends Component
         $_global_count = collect($this->allMediaCollections)->sum('count');
         $_global_size = collect($this->allMediaCollections)->sum('size');
 
-        return view('spatie-medialibrary-manager::livewire.manager', compact('_global_count', '_global_size'));
+        return view($this->view, compact('_global_count', '_global_size'));
     }
 }
