@@ -141,7 +141,7 @@ class Manager extends Component
                         'count' => $mediaItems->count(),
                         'size' => collect($mediaItems)->sum('size'),
                         'canDownload' => $this->canDownload && auth()->user()->can('spatieMedialibraryManagerDownloadMedia', [$model]),
-                        'canDownloadAll' => $this->canDownloadAll && !$collection->singleFile && auth()->user()->can('spatieMedialibraryManagerDownloadAllMedia', [$model, $collection_name]),
+                        'canDownloadAll' => $this->canDownloadAll && !$collection->singleFile && auth()->user()->can('spatieMedialibraryManagerDownloadAllMedia', [$model]),
                         'canUpload' => $canUpload && auth()->user()->can('spatieMedialibraryManagerUploadMedia', [$model]),
                         'canEdit' => $this->canEdit && auth()->user()->can('spatieMedialibraryManagerEditMedia', [$model]),
                         'canMove' => $this->canMove && auth()->user()->can('spatieMedialibraryManagerMoveMedia', [$model]),
