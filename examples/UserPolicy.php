@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\User;
 use App\Models\Invoice;
 

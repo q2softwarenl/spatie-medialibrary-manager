@@ -1,5 +1,5 @@
 # Spatie Medialibrary Manager
-A file manager for Laravel applications using the famous [Spatie Laravel Medialibrary package](https://github.com/spatie/laravel-medialibrary).
+A file manager for Laravel applications using the famous Spatie [Laravel Medialibrary package](https://github.com/spatie/laravel-medialibrary).
 
 **Features**
 - Manage multiple media collections via one interactive GUI
@@ -10,31 +10,23 @@ A file manager for Laravel applications using the famous [Spatie Laravel Mediali
 
 ![Manager](./manager.png)
 
-## Requirements
-- Laravel 12+
-- Spatie Medialibrary 11+
-- Tailwindcss 4
-
-## PRO-features
-- Alternative GUI for single file collections.
-- Upload multiple versions of the same file.
+**PRO-features**
 - Set tailored policies on the collection, rather than being limited to just the model.
+- Add custom actions to files.
+- Upload multiple versions of the same file.
+- Alternative GUI for single file collections.
 
-## Roadmap
-We are currently in active development of "Spatie Medialibrary Manager Pro". we plan to publish a free version here on Github. There are a few things that need to be fixed before we can publish the package.
+**Roadmap**
 
-- [x] Refactor Livewire file structure, eliminate usage of multiple nested Livewire components
-- [x] Make front-end independent of any frameworks / UI component sets 
-- [x] Bug: Disable "Download All" button if no files are available
-- [x] Bug: Tweak file validation to accept only allowed mimetypes
-- [x] Bug: Refresh mediaItem if thumb generation is queued
-- [ ] Bug: Decide if thumbs are a requirement  
-- [ ] Refactor: Use json translation as much as possible and avoid legacy php arrays  
-- [ ] Feature: Filesize validation
-- [ ] Feature: Policies to set rules for individual collections
-- [ ] Feature: Add active folder to url.
-- [ ] Improve single file collections.
-- [ ] Add support for darkmode.
+**Note!** We are currently in active development of "Spatie Medialibrary Manager Pro". We plan to publish a free version here on Github. There are a few things that need to be fixed before we can publish the package.
+
+- **alpha** Bug: Decide if thumbs are a requirement  
+- **alpha** Refactor: Use json translation as much as possible and avoid legacy php arrays  
+- **beta** Feature: Filesize validation
+- **beta** Feature: Policies to set rules for individual collections
+- **beta** Feature: Add active folder to url.
+- **beta** Improve single file collections.
+- **v1.1** Add support for darkmode.
 
 The alpha version is released at the end of April. 
 The beta version is scheduled for release at the end of May.
@@ -46,11 +38,13 @@ The beta version is scheduled for release at the end of May.
 
 Please note that this package requires a base installation of Laravel Media Library. Do this first if you haven't done so already. [How to setup Laravel Media Library?](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup)
 
-<!-- Second, if you have a license for Media Library Pro, please refer to the Media Library Manager Pro installation instructions. -->
-
 ## Base installation
 
-Media Library Manager can be installed via Composer. To do so, follow the basic installation instructions below.
+We assume that you have installed and configured Spatie and that the Laravel Models are prepared. If not, please read that documentation first.
+- [How to install Spatie Laravel Medialibrary?](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup)
+- [How to prepare Models?](https://spatie.be/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model)
+
+Spatie Medialibrary Manager can be installed via Composer. To do so, follow the basic installation instructions below. 
 
 ```bash
 composer require q2softwarenl/spatie-medialibrary-manager
@@ -78,15 +72,18 @@ composer require q2softwarenl/spatie-medialibrary-manager
     - `spatieMedialibraryManagerUploadMedia`
     - `spatieMedialibraryManagerDownloadMedia`
     - `spatieMedialibraryManagerDownloadAllMedia`
-    - [Take a look at the UserPolicy.php sample file](./stubs/UserPolicy.php)
+    - [Take a look at the UserPolicy.php sample file](./examples/UserPolicy.php)
+    - [Policies can be overruled to be `false`](#overrule-policies)
 
-4. Add the component and provide a model that implements the `Spatie\MediaLibrary\HasMedia` interface via the `model`-property. The manager will auto-detect registered mediacollections. [How to register a media collection?](#register-a-media-collection)
+5. Add the component to a view. The manager will auto-detect registered mediacollections after you have prepared your models. [How to register a media collection?](#register-a-media-collection)
 
     ```html
     <livewire:spatie-medialibrary-manager
         :model="$user"
     />
     ```
+
+6. **Only required for PRO users**: Follow the steps in the PRO documentation "Preparing Laravel Models"-section.
 
 ## Register a media collection
 Create a function called `registerMediaCollections` in the model where you want to use media. In this example we are using the `User` model. 
@@ -139,9 +136,13 @@ Publish the language file to set other translations:
 vendor:publish --provider="Q2softwarenl\SpatieMedialibraryManager\SpatieMedialibraryManagerServiceProvider" --tag="lang"
 ```
 
-## Overrule policies
+## Policies
 
-Sometimes, you want the MediaManager to be always readonly, download only, etc. You can overrule policies that return `true` with the following parameters:
+[Take a look at the UserPolicy.php sample file](./examples/UserPolicy.php).
+
+### Overrule policies
+
+Sometimes, you want the MediaManager to be readonly or download only, etc., even if the user is according to policies able to do write actions. You can overrule policies that return `true`:
 
 - `canUpload` (default: true, fallback to policy) (if set to `false`, this prevents all upload actions)
 - `canDownload` (default: true, fallback to policy) (if set to `false`, this prevents all download actions)
@@ -149,7 +150,7 @@ Sometimes, you want the MediaManager to be always readonly, download only, etc. 
 - `canMove` (default: true, fallback to policy) (if set to `false`, this prevents all move actions)
 - `canDelete` (default: true, fallback to policy) (if set to `false`, this prevents all delete actions)
 
-You can overrule those parameters like this:
+Example:
 
 ```html
 <livewire:spatie-medialibrary-manager

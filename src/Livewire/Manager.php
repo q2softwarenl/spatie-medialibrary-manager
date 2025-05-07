@@ -130,7 +130,6 @@ class Manager extends Component
             ->mapWithKeys(function($collection) use ($model) {
                 $collection_name = $collection->name;
                 $mediaItems = $model->media->where('collection_name', $collection_name)->values();
-                $canUpload = $this->canUpload && auth()->user()->can('spatieMedialibraryManagerUploadMedia', [$model]);
 
                 return [
                     $collection_name => [
@@ -141,8 +140,8 @@ class Manager extends Component
                         'count' => $mediaItems->count(),
                         'size' => collect($mediaItems)->sum('size'),
                         'canDownload' => $this->canDownload && auth()->user()->can('spatieMedialibraryManagerDownloadMedia', [$model]),
-                        'canDownloadAll' => $this->canDownloadAll && !$collection->singleFile && auth()->user()->can('spatieMedialibraryManagerDownloadAllMedia', [$model]),
-                        'canUpload' => $canUpload && auth()->user()->can('spatieMedialibraryManagerUploadMedia', [$model]),
+                        'canDownloadAll' => !$collection->singleFile && $this->canDownloadAll && auth()->user()->can('spatieMedialibraryManagerDownloadAllMedia', [$model]),
+                        'canUpload' => $this->canUpload && auth()->user()->can('spatieMedialibraryManagerUploadMedia', [$model]),
                         'canEdit' => $this->canEdit && auth()->user()->can('spatieMedialibraryManagerEditMedia', [$model]),
                         'canMove' => $this->canMove && auth()->user()->can('spatieMedialibraryManagerMoveMedia', [$model]),
                         'canDelete' => $this->canDelete && auth()->user()->can('spatieMedialibraryManagerDeleteMedia', [$model]),
