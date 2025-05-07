@@ -1,7 +1,7 @@
 {
     "name": "q2softwarenl/spatie-medialibrary-manager",
     "description": "A file manager for Laravel applications using Spatie Laravel Medialibrary.",
-    "license": "MIT License",
+    "license": "MIT",
     "autoload": {
       "psr-4": {
         "Q2softwarenl\\SpatieMedialibraryManager\\": "src/"
