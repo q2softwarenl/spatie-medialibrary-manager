@@ -79,14 +79,10 @@ class Manager extends Component
         ?array $whereInMediaCollections = null,
         $conversion = null,
     ) {
+        $this->preChecks($model, $conversion);
+
         $this->managerKey = 'manager_'. Str::random(32);
         $this->table = $model->getTable();
-
-        if (!($model instanceof HasMedia))
-            throw new Exception('The ' . get_class($model) . ' class must implement Spatie\MediaLibrary\HasMedia.');
-        
-        if ($conversion && !in_array(InteractsWithMedia::class, class_uses_recursive($model)))
-            throw new Exception('The ' . get_class($model) . ' class must use Spatie\MediaLibrary\InteractsWithMedia.');
 
         $this->setAllMediaCollections($model, $whereInMediaCollections);
         $this->setAllMediaItems($model);
@@ -96,6 +92,23 @@ class Manager extends Component
         $this->model = $model;
 
         $this->checkPermissions();
+    }
+
+    /**
+     * Before mounting the full component, perform a few checks so that developers know the current configuration is ready to use.
+     * 
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param array|null $whereInMediaCollections
+     * @throws Exception
+     * @return void
+     */
+    public function preChecks(Model $model, $conversion): void
+    {
+        if (!($model instanceof HasMedia))
+            throw new Exception('The ' . get_class($model) . ' class must implement Spatie\MediaLibrary\HasMedia.');
+        
+        if ($conversion && !in_array(InteractsWithMedia::class, class_uses_recursive($model)))
+            throw new Exception('The ' . get_class($model) . ' class must use Spatie\MediaLibrary\InteractsWithMedia.');
     }
 
     /**
