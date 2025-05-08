@@ -11,8 +11,8 @@ A file manager for Laravel applications using the famous Spatie [Laravel Mediali
 ![Manager](./manager.png)
 
 **PRO-features**
-- Set tailored policies on the collection, rather than being limited to just the model.
-- Add custom actions to files.
+- Set policies for individual collections, rather than just the full model.
+- Add custom actions to collections and files.
 - Upload multiple versions of the same file.
 - Alternative GUI for single file collections.
 
@@ -23,7 +23,6 @@ A file manager for Laravel applications using the famous Spatie [Laravel Mediali
 - **alpha** Bug: Decide if thumbs are a requirement  
 - **alpha** Refactor: Use json translation as much as possible and avoid legacy php arrays  
 - **beta** Feature: Filesize validation
-- **beta** Feature: Policies to set rules for individual collections
 - **beta** Feature: Add active folder to url.
 - **beta** Improve single file collections.
 - **v1.1** Add support for darkmode.
@@ -190,4 +189,3 @@ By default, the manager doesn't have a height or max-heigth. It will get as big 
 <!-- Or a max height with overflow-y-scroll if more files are added -->
 <livewire:spatie-medialibrary-manager ... innerClass="max-h-[400px] overflow-y-scroll overflow-x-hidden" />
 ```
-
