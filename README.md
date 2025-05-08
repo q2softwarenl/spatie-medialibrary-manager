@@ -167,3 +167,27 @@ Example:
 ```
 
 **Note!** You cannot force `true` if the policy returns `false`. Make sure your policy covers the basics and manage functional policies via the component attributes.
+
+## Change the appearance
+
+You can set a background by wrapping the component in a `div`:
+
+```html
+<div class="bg-white shadow rounded-lg">
+    <livewire:spatie-medialibrary-manager ... />
+</div>
+```
+
+By default, the manager doesn't have a height or max-heigth. It will get as big as the content requires. You can add CSS-classes to modify the inner height of the component: 
+
+```html
+<!-- Min-height of 400px, growing if more files are added -->
+<livewire:spatie-medialibrary-manager ... innerClass="min-h-[400px]" />
+
+<!-- Or a fixed height with overflow-y-scroll if more files are added -->
+<livewire:spatie-medialibrary-manager ... innerClass="h-[400px] overflow-y-scroll overflow-x-hidden" />
+
+<!-- Or a max height with overflow-y-scroll if more files are added -->
+<livewire:spatie-medialibrary-manager ... innerClass="max-h-[400px] overflow-y-scroll overflow-x-hidden" />
+```
+
