@@ -69,22 +69,22 @@ Import the manager styles to your app `app.css` file and run `npm run build`:
 
 Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implements the Spatie Medialibrary Manager:
 
-    - `spatieMedialibraryManagerEditMedia`
-    - `spatieMedialibraryManagerDeleteMedia`
-    - `spatieMedialibraryManagerMoveMedia`
-    - `spatieMedialibraryManagerUploadMedia`
-    - `spatieMedialibraryManagerDownloadMedia`
-    - `spatieMedialibraryManagerDownloadAllMedia`
-    - [Take a look at the UserPolicy.php sample file](./examples/UserPolicy.php)
-    - [Policies can be overruled to be `false`](#overrule-policies) (optional)
+- `spatieMedialibraryManagerEditMedia`
+- `spatieMedialibraryManagerDeleteMedia`
+- `spatieMedialibraryManagerMoveMedia`
+- `spatieMedialibraryManagerUploadMedia`
+- `spatieMedialibraryManagerDownloadMedia`
+- `spatieMedialibraryManagerDownloadAllMedia`
+- [Take a look at the UserPolicy.php sample file](./examples/UserPolicy.php)
+- [Policies can be overruled to be `false`](#overrule-policies) (optional)
 
 Add the component to a view. The manager will auto-detect registered mediacollections after you have prepared your models. [How to register a media collection?](#register-a-media-collection)
 
-    ```html
-    <livewire:spatie-medialibrary-manager
-        :model="$user"
-    />
-    ```
+```html
+<livewire:spatie-medialibrary-manager
+    :model="$user"
+/>
+```
 
 **Only required for PRO users**: Follow the steps in the PRO documentation "Preparing Laravel Models"-section.
 
