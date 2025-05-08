@@ -36,12 +36,10 @@ The beta version is scheduled for release at the end of May.
 - Tailwindcss 4
 - Spatie Medialibrary 11+
 
-Please note that this package requires a base installation of Laravel Media Library. Do this first if you haven't done so already. [How to setup Laravel Media Library?](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup)
-
 ## Base installation
 
-We assume that you have installed and configured Spatie and that the Laravel Models are prepared. If not, please read that documentation first.
-- [How to install Spatie Laravel Medialibrary?](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup)
+Please note that this package requires a installation of Laravel Media Library and that the Laravel Models are prepared. Do this first if you haven't done so already.
+- [How to setup Spatie Laravel Medialibrary?](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup)
 - [How to prepare Models?](https://spatie.be/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model)
 
 Spatie Medialibrary Manager can be installed via Composer. To do so, follow the basic installation instructions below. 
@@ -50,21 +48,19 @@ Spatie Medialibrary Manager can be installed via Composer. To do so, follow the 
 composer require q2softwarenl/spatie-medialibrary-manager
 ```
 
-1. Add the manager javascript to your app `resources/js/app.js` file:
-    ```diff
-    import './bootstrap';
-    + import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/js/manager';
-    ```
+Add the manager javascript to your app `resources/js/app.js` file:
+```diff
+import './bootstrap';
++ import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/js/manager';
+```
 
-2. Import the manager styles to your app `app.css` file:
-    ```css
-    @import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/manager.css'; 
-    @import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/theme/default.css';
-    ```
+Import the manager styles to your app `app.css` file and run `npm run build`:
+```css
+@import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/manager.css'; 
+@import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/theme/default.css';
+```
 
-3. Run `npm run build`.
-
-4. Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implenents the Spatie Medialibrary Manager:
+Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implements the Spatie Medialibrary Manager:
 
     - `spatieMedialibraryManagerEditMedia`
     - `spatieMedialibraryManagerDeleteMedia`
@@ -73,9 +69,9 @@ composer require q2softwarenl/spatie-medialibrary-manager
     - `spatieMedialibraryManagerDownloadMedia`
     - `spatieMedialibraryManagerDownloadAllMedia`
     - [Take a look at the UserPolicy.php sample file](./examples/UserPolicy.php)
-    - [Policies can be overruled to be `false`](#overrule-policies)
+    - [Policies can be overruled to be `false`](#overrule-policies) (optional)
 
-5. Add the component to a view. The manager will auto-detect registered mediacollections after you have prepared your models. [How to register a media collection?](#register-a-media-collection)
+Add the component to a view. The manager will auto-detect registered mediacollections after you have prepared your models. [How to register a media collection?](#register-a-media-collection)
 
     ```html
     <livewire:spatie-medialibrary-manager
@@ -83,7 +79,7 @@ composer require q2softwarenl/spatie-medialibrary-manager
     />
     ```
 
-6. **Only required for PRO users**: Follow the steps in the PRO documentation "Preparing Laravel Models"-section.
+**Only required for PRO users**: Follow the steps in the PRO documentation "Preparing Laravel Models"-section.
 
 ## Register a media collection
 Create a function called `registerMediaCollections` in the model where you want to use media. In this example we are using the `User` model. 
