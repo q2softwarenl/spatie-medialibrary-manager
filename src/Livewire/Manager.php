@@ -135,7 +135,7 @@ class Manager extends Component
                     $collection_name => [
                         'collection_name' => $collection_name,
                         'label' => __('mediaCollections.' . $this->table . '.' . $collection_name),
-                        'empty_text' => $canUpload ? trans_choice('smm::texts.upload_file_instructions', ($collection->singleFile ? 1 : 2)) : __('smm::texts.no_files_in_collection', ['collection' => __('mediaCollections.' . $this->table . '.' . $collection_name)]),
+                        'empty_text' => $this->canUpload ? trans_choice('Drag a file or choose a file via the upload button.|Drag files or choose files via the upload button.', ($collection->singleFile ? 1 : 2)) : __('No files in :collection.', ['collection' => __('mediaCollections.' . $this->table . '.' . $collection_name)]),
                         'singleFile' => $collection->singleFile,
                         'count' => $mediaItems->count(),
                         'size' => collect($mediaItems)->sum('size'),
@@ -207,7 +207,7 @@ class Manager extends Component
         $mediaCollection = $this->model->getRegisteredMediaCollections()->where('name', $this->uploadingToMediaCollection)->first();
         
         if ($mediaCollection->singleFile && count($value) > 1) {
-            $this->addError('rawFiles.*', __('smm::texts.only_one_file_can_be_uploaded', ['collection' => $this->allMediaCollections[$this->uploadingToMediaCollection]['label']]));
+            $this->addError('rawFiles.*', __('Only one file is allowed in :collection', ['collection' => $this->allMediaCollections[$this->uploadingToMediaCollection]['label']]));
             return;
         }
         
@@ -234,7 +234,7 @@ class Manager extends Component
         //         return;
         //     }
         //     // dd(, $rawValidatedFiles, collect($rawValidatedFiles)->sum(function($item) { return $item->getSize(); }), $mediaCollection->collectionTotalFileSizeLimit);
-        //     // $this->addError('rawFiles.*', __('smm::texts.only_one_file_can_be_uploaded', ['collection' => $this->allMediaCollections[$this->uploadingToMediaCollection]['label']]));
+        //     // $this->addError('rawFiles.*', __('Only one file is allowed in :collection', ['collection' => $this->allMediaCollections[$this->uploadingToMediaCollection]['label']]));
         // }
 
         foreach ($rawValidatedFiles as $file) {
@@ -259,7 +259,7 @@ class Manager extends Component
                 $this->dispatch('addMediaItemToCollection', $this->model->id, ManagerFile::fromModel($addedMedia))->to($this->dispatchToManager);
 
             } catch (\Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded $e) {
-                $this->addError('files.*', __('smm::texts.file_not_accepted_in_collection', [
+                $this->addError('files.*', __('The file ":file" is not allowed in :collection.', [
                     'file' => $file->getClientOriginalName(),
                     'collection' => $this->allMediaCollections[$this->uploadingToMediaCollection]['label'],
                 ]));
