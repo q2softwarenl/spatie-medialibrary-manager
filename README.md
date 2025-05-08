@@ -55,9 +55,16 @@ import './bootstrap';
 ```
 
 Import the manager styles to your app `app.css` file and run `npm run build`:
-```css
-@import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/manager.css'; 
-@import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/theme/default.css';
+```diff
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
++ @import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/manager.css'; 
++ @import './../../vendor/q2softwarenl/spatie-medialibrary-manager/resources/css/theme/default.css';
 ```
 
 Configure the model policy before you can use the manager. After that, you can configure the manager with custom language files, custom configuration and display. Use the following policies for each model that has media and implements the Spatie Medialibrary Manager:
