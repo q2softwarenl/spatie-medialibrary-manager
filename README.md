@@ -110,27 +110,19 @@ class User extends Authenticatable implements HasMedia {
 ```
 
 ## Language
-Spatie Medialibrary Manager uses default translation strings. You can edit this in you applications `lang\<your-locale>.json` file. You can use this Dutch template example:
 
-```json
-{
-    "Back": "Terug",
-	"Cancel": "Annuleren",
-	"Caution!": "Let op!",
-	"Choose a file": "Kies een bestand",
-	"Choose files": "Kies bestanden",
-	"Choose file": "Kies bestand",
-	"Delete file": "Verwijder bestand",
-	"Download All": "Alles downloaden",
-	"Download": "Downloaden",
-	"Move file": "Verplaats bestand",
-	"Original filename": "Originele bestandsnaam",
-	"Rename file": "Hernoem bestand",
-	"Save": "Opslaan",
-	"This folder only accepts one file.": "Deze map accepteert maar één bestand.",
-	"Where would you like to move \":file_name\"?": "Waarheen wilt u \":file_name\" verplaatsen?"
-}
+Naming of collections is out of the box translated. Create a file `lang\en\mediaCollections.php` and add the table name of the model:
+
+```php
+return [
+    'users' => [
+        'avatar' => 'Avatar'
+        'images' => 'Pictures'
+    ]
+];
 ```
+
+Spatie Medialibrary Manager uses default translation strings. You can edit this in you applications `lang\<your-locale>.json` file.
 
 Publish the language file to set other translations:
 
