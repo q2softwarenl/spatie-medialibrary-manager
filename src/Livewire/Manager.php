@@ -48,6 +48,9 @@ class Manager extends Component
     public string $accept = '';
 
     #[Locked]
+    public mixed $mediaClass = [];
+
+    #[Locked]
     public array $allMediaCollections = [];
 
     public array $allMediaItems = [];
@@ -79,6 +82,8 @@ class Manager extends Component
         ?array $whereInMediaCollections = null,
         $conversion = null,
     ) {
+        $this->mediaClass = config('media-library.media_model', Media::class);
+
         $this->preChecks($model, $conversion);
 
         $this->managerKey = 'manager_'. Str::random(32);
@@ -293,8 +298,8 @@ class Manager extends Component
         $this->allMediaItems = collect($this->allMediaItems)->map(function($mediaItem) {
             if(!empty($mediaItem['thumbnail_url']))
                 return $mediaItem;
-            
-            return ManagerFile::fromModel(Media::find($mediaItem['id']))->toArray();
+
+            return ManagerFile::fromModel($this->mediaClass::find($mediaItem['id']))->toArray();
         })->toArray();
     }
 
@@ -327,7 +332,7 @@ class Manager extends Component
     {
         if(!$this->canEdit) return;
 
-        Media::find($media_id)?->update(['name' => $value]);
+        $this->mediaClass::find($media_id)?->update(['name' => $value]);
     }
 
     public function deleteMediaItem(string $managerKey, int $media_id): void
@@ -335,12 +340,12 @@ class Manager extends Component
         if(!$this->canDelete) return;
 
         if($this->managerKey === $managerKey) {
-            $media = Media::find($media_id)->toArray();
+            $media = $this->mediaClass::find($media_id)->toArray();
 
             if($media)
                 $this->dispatch('removeMediaItemFromCollection', $this->model->id, $media['id'], $media['collection_name'], $media['size'])->to($this->dispatchToManager);
             
-            Media::find($media_id)?->delete();
+            $this->mediaClass::find($media_id)?->delete();
         }
     }
 
@@ -363,7 +368,7 @@ class Manager extends Component
     {
         if(!$this->canDownload) return;
 
-        $mediaItem = Media::find($media_id);
+        $mediaItem = $this->mediaClass::find($media_id);
         $downloadName = Str::of($mediaItem->name)->finish('.'. pathinfo($mediaItem->file_name, PATHINFO_EXTENSION));
 
         return response()->download($mediaItem->getPath(), $downloadName);
@@ -373,7 +378,7 @@ class Manager extends Component
     {
         if(!$this->canMove) return;
         
-        $mediaItem = Media::find($media_id);
+        $mediaItem = $this->mediaClass::find($media_id);
         $from_collection_name = $mediaItem->collection_name;
         $mediaItem->collection_name = $to_collection_name;
         $mediaItem->save();
