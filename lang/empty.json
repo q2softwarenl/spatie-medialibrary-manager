@@ -15,5 +15,8 @@
     "Rename file": "",
     "Save": "",
     "This folder only accepts one file.": "",
-    "Where would you like to move \":file_name\"?": ""
+    "Where do you want to move the file?": "",
+    "Drag a file or choose a file via the upload button.|Drag files or choose files via the upload button.": "",
+    "No files in :collection.": "",
+    "The file \":file\" is not allowed in :collection.": ""
 }

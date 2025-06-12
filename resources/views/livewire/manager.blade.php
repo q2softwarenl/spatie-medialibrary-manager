@@ -112,12 +112,13 @@
                         <div>
                             <div class="py-1 px-4 flex justify-between items-center gap-4">
                                 <div class="grow min-w-0 flex gap-4 items-center">
-                                    <div 
-                                        class="shrink-0 relative rounded overflow-hidden border"
+                                    <button 
+                                        class="shrink-0 relative rounded overflow-hidden border cursor-zoom-in"
                                         :class="(['image', 'pdf'].includes(mediaItem.type) ? 'border-base dark:border-base-content bg-base-300 dark:bg-base-50' : 'p-2 border-transparent')"
                                         :style="'background-color: ' + mediaItem.theme_color"
                                         x-show="mediaItem.thumbnail_url" 
                                         style="display:none;" 
+                                        x-on:click="previewThumb(mediaItem)"
                                     >
                                         <img 
                                             :src="mediaItem.thumbnail_url ? mediaItem.thumbnail_url : ''" 
@@ -125,7 +126,7 @@
                                             class="object-center"
                                             :class="['image', 'pdf'].includes(mediaItem.type) ? 'size-8 object-cover' : 'size-4 object-contain invert'"
                                         />
-                                    </div>
+                                    </button>
 
                                     <div class="p-2 rounded bg-base-300 dark:bg-base-50" x-show="!mediaItem.thumbnail_url" style="display:none;">
                                         <x-spatie-medialibrary-manager::icons.loading class="animate-spin size-4" />
@@ -175,7 +176,7 @@
                                     <button
                                         type="button"
                                         class="smm-btn-ghost-square"
-                                        title="{{ __('Download') }}"
+                                        title="{{ __('Download file') }}"
                                         x-on:click.prevent="downloadMediaItem(mediaItem, collection)"
                                         x-bind:disabled="isMoving || isEditing"
                                         x-show="collection.canDownload"
@@ -186,7 +187,7 @@
                                     <button
                                         type="button"
                                         class="smm-btn-ghost-square"
-                                        title="{{ __('Rename') }}"
+                                        title="{{ __('Rename file') }}"
                                         x-on:click.prevent="editMediaItem(mediaItem, collection)"
                                         x-bind:disabled="isMoving || isEditing"
                                         x-show="collection.canEdit"
@@ -197,7 +198,7 @@
                                     <button
                                         type="button"
                                         class="smm-btn-ghost-square"
-                                        title="{{ __('Move') }}"
+                                        title="{{ __('Move file') }}"
                                         x-on:click.prevent="movingMediaItem(mediaItem, collection)"
                                         x-bind:disabled="isMoving || isEditing"
                                         x-show="canMove && collection.canMove"
@@ -208,7 +209,7 @@
                                     <button
                                         type="button"
                                         class="smm-btn-ghost-error-square"
-                                        title="{{ __('Delete') }}"
+                                        title="{{ __('Delete file') }}"
                                         x-on:click.prevent="deleteMediaItem(managerKey, mediaItem, collection, '{{ __('Are you sure to delete this file? You cannot undo this action.') }}');"
                                         x-bind:disabled="isMoving || isEditing"
                                         x-show="collection.canDelete"
@@ -257,4 +258,26 @@
     </div>
 
     <x-spatie-medialibrary-manager::manager.footer :count="$_global_count" :size="$_global_size" />
+
+    <div
+        x-cloak 
+        x-show="previewUrl" 
+        class="w-full rounded-b-xl overflow-hidden"
+    >
+        <div class="border-t flex justify-end p-2">
+            <button class="smm-btn-ghost-square" x-on:click="closeThumb()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                </svg>
+            </button>
+        </div>
+        <div class="relative max-h-[500px] flex">
+            <iframe 
+                allowfullscreen
+                :src="previewUrl"
+                class="grow"
+                :height="previewHeight"
+            ></iframe>
+        </div>
+    </div>
 </div>

@@ -8,6 +8,8 @@ document.addEventListener('alpine:init', () => {
         isDeleting: false,
         progress: 0,
         activeCollectionLabel: '',
+        previewUrl: undefined,
+        previewHeight: 500,
 
         /**
          * Entangled variables
@@ -214,6 +216,22 @@ document.addEventListener('alpine:init', () => {
             }
                 
             this.isDeleting = false
+        },
+
+        /**
+         * Preview
+         */
+        async previewThumb(media)
+        {
+            this.previewUrl = media.preview_url;
+
+            console.log(media)
+            this.previewHeight = 500;
+        },
+
+        async closeThumb()
+        {
+            this.previewUrl = undefined
         },
 
     }))

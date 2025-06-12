@@ -15,6 +15,7 @@ class ManagerFile
     public ?string $file_name;
     public int $size = 0;
     public ?string $thumbnail_url;
+    public ?string $preview_url;
     public ?string $theme_color;
     public string $date;
     public string $datetime;
@@ -27,6 +28,7 @@ class ManagerFile
         $name,
         $file_name,
         $thumbnail_url = null,
+        $preview_url = null,
         $size,
         $mime_type,
         $created_at = null
@@ -53,6 +55,7 @@ class ManagerFile
             'word' => 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(__DIR__.'/../resources/assets/file.svg')),
             'zip' => 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(__DIR__.'/../resources/assets/file.svg')),
         ][$this->type];
+        $this->preview_url = $preview_url;
         $this->theme_color = [
             'excel' => '#1d6f42',
             'image' => 'transparent',
@@ -73,6 +76,7 @@ class ManagerFile
             name: $media->name,
             file_name: $media->file_name,
             thumbnail_url: $media->hasGeneratedConversion('thumb') ? $media->getUrl('thumb') : false,
+            preview_url: $media->getTemporaryUrl(now()->addMinutes(10)),
             size: $media->size,
             mime_type: $media->mime_type,
             created_at: $media->created_at
