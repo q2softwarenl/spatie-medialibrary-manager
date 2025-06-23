@@ -1,7 +1,7 @@
 @props(['count', 'size'])
 
 <div class="relative flex items-center justify-between h-12 py-2 px-4 text-base-content/75 dark:bg-transparent text-xs">
-    @if(count($errors))
+    @if($errors->any() && key_exists('rawFiles', $errors->toArray()))
     <div class="absolute bg-error left-2 right-2 bottom-2 py-2 px-4 rounded-md border border-error text-white text-sm flex items-center gap-4">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -9,7 +9,7 @@
             </svg>
         </div>
         <div>
-            @foreach($errors->all() as $error)
+            @foreach($errors->get('rawFiles.*') as $error)
             <p>{{ $error }}</p>
             @endforeach
         </div>
