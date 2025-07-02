@@ -76,7 +76,7 @@ class ManagerFile
             name: $media->name,
             file_name: $media->file_name,
             thumbnail_url: $media->hasGeneratedConversion('thumb') ? $media->getUrl('thumb') : false,
-            preview_url: $media->getTemporaryUrl(now()->addMinutes(10)),
+            preview_url: Str::of($media->mime_type)->contains('image') ? $media->getTemporaryUrl(now()->addMinutes(10)) : null,
             size: $media->size,
             mime_type: $media->mime_type,
             created_at: $media->created_at
