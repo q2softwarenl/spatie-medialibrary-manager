@@ -21,6 +21,7 @@ document.addEventListener('alpine:init', () => {
         canOverview: livewireComponent.entangle('canOverview'),
         
         canDownload: livewireComponent.entangle('canDownload'),
+        canUpload: livewireComponent.entangle('canUpload'),
         canEdit: livewireComponent.entangle('canEdit'),
         canMove: livewireComponent.entangle('canMove'),
 

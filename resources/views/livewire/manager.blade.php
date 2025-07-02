@@ -77,7 +77,7 @@
                     </button>
                     <label 
                         class="smm-btn-ghost" 
-                        x-show="collection.canUpload" 
+                        x-show="canUpload" 
                         style="display:none" 
                         :disabled="collection.singleFile && allMediaItems.filter(item => collection.collection_name === item.collection_name).length === 1"
                     >
