@@ -45,7 +45,7 @@ class Manager extends Component
     public bool $canMove = false;
     public bool $canDelete = true;
 
-    public string $accept = '';
+    public string $accept = 'image/*';
 
     #[Locked]
     public mixed $mediaClass = [];
