@@ -3,19 +3,20 @@
     "description": "A file manager for Laravel applications using Spatie Laravel Medialibrary.",
     "license": "MIT",
     "autoload": {
-      "psr-4": {
-        "Q2softwarenl\\SpatieMedialibraryManager\\": "src/"
-      }
+        "psr-4": {
+            "Q2softwarenl\\SpatieMedialibraryManager\\": "src/"
+        }
     },
     "authors": [
-      {
-        "name": "Dirk Jan Laros",
-        "email": "dirkjan@q2-software.nl"
-      }
+        {
+            "name": "Dirk Jan Laros",
+            "email": "dirkjan@q2-software.nl"
+        }
     ],
+    "minimum-stability": "stable",
     "require": {
-        "php": "^8.0.2",
-        "laravel/framework": "^10.0|^11.0|^12.0",
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
         "livewire/livewire": "^3.0",
         "spatie/laravel-medialibrary": "^11.0.0",
         "spatie/pdf-to-image": "^2.2",
@@ -28,5 +29,33 @@
             ]
         }
     },
-    "minimum-stability": "stable"
-}  
+    "require-dev": {
+        "orchestra/testbench": "^10.4"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Q2softwarenl\\SpatieMedialibraryManager\\Tests\\": "tests",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "test": [
+            "@clear",
+            "@php vendor/bin/phpunit"
+        ]
+    }
+}
