@@ -2,13 +2,19 @@
 
 namespace Q2softwarenl\SpatieMedialibraryManager\Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\Concerns\WithWorkbench;
+
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use WithWorkbench;
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
         
-        // ..
+        //
     }
 
     /**

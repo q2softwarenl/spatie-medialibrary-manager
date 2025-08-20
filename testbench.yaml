@@ -17,6 +17,7 @@ workbench:
     web: true
     api: true
     commands: true
+    config: true
     components: false
     factories: true
     views: false
