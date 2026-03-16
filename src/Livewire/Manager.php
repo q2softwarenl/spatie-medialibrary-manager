@@ -72,11 +72,6 @@ class Manager extends Component
 
     public Model $model;
 
-    protected $listeners = [
-        'addMediaItemToCollection' => 'addMediaItemToCollection',
-        'removeMediaItemFromCollection' => 'removeMediaItemFromCollection',
-    ];
-
     public function mount(
         Model $model,
         ?array $whereInMediaCollections = null,
@@ -280,6 +275,7 @@ class Manager extends Component
      * 
      * @return void
      */
+    #[On('addMediaItemToCollection')]
     public function addMediaItemToCollection(int $model_id, array $addedManagerFile): void
     {
         if($this->model->id !== $model_id) return;
@@ -303,6 +299,7 @@ class Manager extends Component
         })->toArray();
     }
 
+    #[On('removeMediaItemFromCollection')]
     public function removeMediaItemFromCollection(int $model_id, int $media_id, $collection_name, int $removed_size): void
     {
         if($this->model->id !== $model_id) return;

@@ -1,7 +1,7 @@
 document.addEventListener('alpine:init', () => {
 
-    Alpine.data('spatie_medialibrary_manager', (livewireComponent) => ({
-        
+    Alpine.data('spatie_medialibrary_manager', ($wire) => ({
+
         isEditing: false,
         isMoving: false,
         isUploading: false,
@@ -14,24 +14,24 @@ document.addEventListener('alpine:init', () => {
         /**
          * Entangled variables
          */
-        managerKey: livewireComponent.entangle('managerKey'), 
+        managerKey: $wire.entangle('managerKey'),
 
-        maxFileSizeBytes: livewireComponent.entangle('maxFileSizeBytes'),
-        
-        canOverview: livewireComponent.entangle('canOverview'),
-        
-        canDownload: livewireComponent.entangle('canDownload'),
-        canUpload: livewireComponent.entangle('canUpload'),
-        canEdit: livewireComponent.entangle('canEdit'),
-        canMove: livewireComponent.entangle('canMove'),
+        maxFileSizeBytes: $wire.entangle('maxFileSizeBytes'),
 
-        allMediaCollections: livewireComponent.entangle('allMediaCollections'),
-        allMediaItems: livewireComponent.entangle('allMediaItems'),
+        canOverview: $wire.entangle('canOverview'),
 
-        totalFilesCount: livewireComponent.entangle('totalFilesCount'),
-        totalFileSizeMb: livewireComponent.entangle('totalFileSizeMb'),
-        totalFileSize: livewireComponent.entangle('totalFileSize'),
-        activeCollection: livewireComponent.entangle('activeCollection'),
+        canDownload: $wire.entangle('canDownload'),
+        canUpload: $wire.entangle('canUpload'),
+        canEdit: $wire.entangle('canEdit'),
+        canMove: $wire.entangle('canMove'),
+
+        allMediaCollections: $wire.entangle('allMediaCollections'),
+        allMediaItems: $wire.entangle('allMediaItems'),
+
+        totalFilesCount: $wire.entangle('totalFilesCount'),
+        totalFileSizeMb: $wire.entangle('totalFileSizeMb'),
+        totalFileSize: $wire.entangle('totalFileSize'),
+        activeCollection: $wire.entangle('activeCollection'),
 
         /**
          * Init
@@ -43,19 +43,19 @@ document.addEventListener('alpine:init', () => {
          */
         async navigateToCollection(collection) {
             this.activeCollectionLabel = collection.label
-            livewireComponent.activeCollection = collection.collection_name
+            $wire.activeCollection = collection.collection_name
             this.activeCollection = collection.collection_name
 
             if(this.allMediaItems.filter(item => item.thumbnail_url === '').length > 0)
-                livewireComponent.call('tryLoadingMissingThumbnails')
+                $wire.tryLoadingMissingThumbnails()
         },
 
         async navigateToHome() {
             if(!this.canOverview) return;
 
             this.activeCollectionLabel = ''
-            livewireComponent.activeCollection = this.activeCollection = null
-            
+            $wire.activeCollection = this.activeCollection = null
+
             this.allMediaItems.map(media => {
                 if(media.editing)
                     this.cancelEditing(media)
@@ -82,13 +82,13 @@ document.addEventListener('alpine:init', () => {
 
         processFileUpload(files, collection) {
             if(!collection.canUpload) {
-                console.error('Uploading to this collection is not allowed.') 
+                console.error('Uploading to this collection is not allowed.')
                 return
             }
-            
+
             this.isUploading = true
 
-            livewireComponent.uploadingToMediaCollection = collection.collection_name
+            $wire.uploadingToMediaCollection = collection.collection_name
 
             const rawFiles = [...files].filter(file => file.size <= this.maxFileSizeBytes)
 
@@ -106,23 +106,21 @@ document.addEventListener('alpine:init', () => {
                 throw new Error('You can only upload 20 files at the same time.')
             }
 
-            // if (e.target.files[0].size > this.maxFileSizeBytes) throw new Error('Filesize exceeds upload limit.')
-
-            livewireComponent.uploadMultiple(
-                'rawFiles', 
-                rawFiles, 
+            $wire.uploadMultiple(
+                'rawFiles',
+                rawFiles,
                 (filename) => { // Success
                     this.isUploading = false
                     this.progress = 0
 
                     setTimeout(function() {
-                        livewireComponent.call('tryLoadingMissingThumbnails')
+                        $wire.tryLoadingMissingThumbnails()
                     }, 5000)
-                }, 
+                },
                 (error) => { // Error
                     this.isUploading = false
                     this.progress = 0
-                }, 
+                },
                 (event) => {
                     this.progress = event.detail.progress
                 }
@@ -145,7 +143,7 @@ document.addEventListener('alpine:init', () => {
             media.editing = this.isEditing = false
             media.name = media.updatingName
 
-            livewireComponent.updateMediaItemName(media.id, media.name)
+            $wire.updateMediaItemName(media.id, media.name)
         },
 
         async cancelEditing(media) {
@@ -159,11 +157,11 @@ document.addEventListener('alpine:init', () => {
         async downloadMediaItem(media, collection) {
             if(!this.canDownload || !collection.canDownload) return;
 
-            livewireComponent.downloadMediaItem(media.id)
+            $wire.downloadMediaItem(media.id)
         },
 
         async downloadAll(collection) {
-            livewireComponent.call('downloadAll', collection.collection_name)
+            $wire.downloadAll(collection.collection_name)
         },
 
         /**
@@ -176,17 +174,17 @@ document.addEventListener('alpine:init', () => {
 
             media.moveToMediaCollectionOptions = collectionNames.filter(collection_name => collection_name !== media.collection_name).filter(collection_name => {
                 const dest_collection = Reflect.get(this.allMediaCollections, collection_name)
-                
+
                 return !dest_collection.singleFile
             }).map(collection_name => {
                 const collection = Reflect.get(this.allMediaCollections, collection_name)
-                
-                return { 
+
+                return {
                     'value': collection_name,
                     'label': collection.label
                 }
             })
-            
+
             media.moving = this.isMoving = true && media.moveToMediaCollectionOptions.length > 0
         },
 
@@ -196,7 +194,7 @@ document.addEventListener('alpine:init', () => {
             media.moving = this.isMoving = false
             media.collection_name = media.moveToMediaCollectionName
 
-            livewireComponent.moveMediaItem(media.id, media.collection_name)
+            $wire.moveMediaItem(media.id, media.collection_name)
         },
 
         async cancelMoving(media) {
@@ -212,10 +210,10 @@ document.addEventListener('alpine:init', () => {
 
             media.deleting = this.isDeleting = true
 
-            if(confirm(confirmationMessage)) {                
-                livewireComponent.call('deleteMediaItem', managerKey, media.id)
+            if(confirm(confirmationMessage)) {
+                $wire.deleteMediaItem(managerKey, media.id)
             }
-                
+
             this.isDeleting = false
         },
 
