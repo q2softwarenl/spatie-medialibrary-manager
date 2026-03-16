@@ -134,6 +134,31 @@ class ManagerTest extends TestCase
 
     }
 
+    public function test_cannot_overview_collections_if_model_has_one_collection()
+    {
+
+    }
+
+    public function test_cannot_move_to_collection_if_one_collection_is_filtered_from_multiple_collections()
+    {
+
+    }
+
+    public function test_filter_collection_from_multiple_collections()
+    {
+
+    }
+
+    public function test_cannot_overview_collections_if_one_collection_is_filtered_from_multiple_collections()
+    {
+
+    }
+
+    public function test_can_overview_collections_if_multiple_collections()
+    {
+
+    }
+
     public function test_config_update_default_validation_mimes_has_effect()
     {
 
